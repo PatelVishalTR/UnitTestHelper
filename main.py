@@ -99,20 +99,15 @@ class MainWindow(QMainWindow):
     def ModifyTestVcxProjFile(self):
         file_path = self.le_testvcxprojPath.text()
         calc_file_path = self.le_vcxprojPath.text()
-        # Specify the line to be inserted
-        insert_line = '</Import>\n<Import Project="$(wincsi_prodcomRootDir)inc\\comcalcs_src\\test.targets">'
-        # Specify the target line after which the new line should be inserted
-        target_line = '<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets">'
-        
-        # Pattern to match the old filename 'packages.config'
-        old_filename = 'packages.config'
-        # New filename 'packages.__XSSclc_test.config'
-        new_filename = self.le_TestPackagesConfigFileName.text()
-        # Calc packages.config file rename
-        new_calc_packageConfig_filename = self.le_CalcPackagesConfigFileName.text()
-        # Check if the file exists
-        if os.path.exists(file_path):
+
+        # Check if the file and package path exists
+        if os.path.exists(file_path) and self.le_CalcPackagesConfigFileName.text():
             try:
+                # Specify the line to be inserted
+                insert_line = '</Import>\n<Import Project="$(wincsi_prodcomRootDir)inc\\comcalcs_src\\test.targets">'
+                # Specify the target line after which the new line should be inserted
+                target_line = '<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets">'
+
                 # Read the contents of the file
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
@@ -133,49 +128,49 @@ class MainWindow(QMainWindow):
                         file.writelines(lines)
                     file.close()
                 else:
-                    msg = QMessageBox(self)
-                    msg.setIcon(QMessageBox.Icon.Critical)
-                    msg.setText("Error modifying the file")
-                    msg.setWindowTitle("Error")
-                    msg.exec()
+                    file.close()
+                    QMessageBox.critical(self, "Error", "Error modifying the file. Please try again.")
             except:
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText(f"Error adding test.target content to the file")
-                msg.setWindowTitle("Error")
-                msg.exec()
-            try:
-                # Modify the lines with the new filename
-                with open(file_path, 'r') as file:
-                    lines = file.readlines()
-                updated_lines = [line.replace(old_filename, new_filename) for line in lines]
-                with open(file_path, 'w') as file:
-                    file.writelines(updated_lines)
                 file.close()
+                QMessageBox.critical(self, "Error", "Error adding test.target content to the test vcxproj file.")
+
+            try:
+                # Modify test vcxprofj file
+                old_filename = 'packages.config'
+                # New filename 'packages.__XSSclc_test.config'
+                new_filename = self.le_TestPackagesConfigFileName.text()
+                # Calc packages.config file rename
+                new_calc_packageConfig_filename = self.le_CalcPackagesConfigFileName.text()
+                
+                # Modify the lines with the new filename
+                with open(file_path, 'r') as tfile:
+                    tlines = tfile.readlines()
+                    
+                updated_lines = [tline.replace(old_filename, new_filename) for tline in tlines]
+                tfile.close()
+
+                with open(file_path, 'w') as tfile:
+                    tfile.writelines(updated_lines)
+                tfile.close()
+                
                 # Modify calc vcxprofj file
                 with open(calc_file_path, 'r') as cfile:
                     clines = cfile.readlines()
+                    
                 cupdated_lines = [cline.replace(old_filename, new_calc_packageConfig_filename) for cline in clines]
+                cfile.close()
+                
                 with open(calc_file_path, 'w') as cfile:
                     cfile.writelines(cupdated_lines)
                 cfile.close()
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Information)
-                msg.setText(f"Modified {file_path} and {calc_file_path} successfully")
-                msg.setWindowTitle("Info")
-                msg.exec()
+                
+                QMessageBox.information(self, "Info", f"Modified {file_path} and {calc_file_path} successfully!")
             except:
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText(f"Error renaming packages.config file:")
-                msg.setWindowTitle("Error")
-                msg.exec()
+                tfile.close()
+                cfile.close()
+                QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
         else:
-            msg = QMessageBox(self)
-            msg.setIcon(QMessageBox.Icon.Warning)
-            msg.setText("Please select the correct vcxproj file ")
-            msg.setWindowTitle("Invalid vcxproj file")
-            msg.exec()
+            QMessageBox.warning(self, "Unable to proceed", "Please complete the above two steps to proceed.")
     
     def AddtoSln(self):
         if self.le_vcxprojFileName.text() and self.le_testvcxprojPath.text():
