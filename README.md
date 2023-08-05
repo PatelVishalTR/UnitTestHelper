@@ -8,6 +8,8 @@ A utility to assist and automate various tasks related to unit testing for Ultra
 
 - Creation of a new test project 
 - Modification of vcxproj and packages.config files
+- Adding the test project to the solution
+- More features coming soon...
 
 
 ## Documentation
@@ -18,4 +20,3 @@ A utility to assist and automate various tasks related to unit testing for Ultra
 ## Authors
 
 - Vishal Patel (vishal.patel@thomsonreuters.com)
-
