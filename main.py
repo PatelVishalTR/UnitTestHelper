@@ -1,6 +1,6 @@
 # Unit Test Helper app
 
-from PyQt6 import uic
+from PyQt6 import uic, QtGui
 from PyQt6.QtWidgets import *
 import os, sys, shutil
 
@@ -9,6 +9,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
             super(MainWindow, self).__init__()
             uic.loadUi("Main.ui", self)
+            self.setWindowIcon(QtGui.QIcon('logo.png'))
             self.show()
             
             # File -> About action
@@ -21,7 +22,7 @@ class MainWindow(QMainWindow):
             self.actionReset_Data.triggered.connect(self.ResetData)
         
             # Register button actions
-            self.pb_CreateVcxproj.clicked.connect(self.CreateVcxprojFile)
+            self.pb_CreateTestVcxproj.clicked.connect(self.CreateTestVcxprojFile)
             self.pb_BrowseVcxprojFile.clicked.connect(self.BrowseVcxProjFile)
             self.pb_ModifyVcxprojFile.clicked.connect(self.ModifyTestVcxProjFile)
             self.pb_AddtoSln.clicked.connect(self.AddtoSln)
@@ -55,33 +56,24 @@ class MainWindow(QMainWindow):
         except:
             QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
               
-    def CreateVcxprojFile(self):
+    def CreateTestVcxprojFile(self):
         if self.le_vcxprojFileName.text():
             source_path = self.le_vcxprojPath.text()
+            # Getting the calc directory
             calc_dir = os.path.dirname(source_path)
+            # Creating test vcxproj file name
             test_vcxproj_fileName = "__" + self.le_vcxprojFileName.text().split(".")[0] + "_test.vcxproj"
+            # Destination path will be same as the calc path
             destination_path = calc_dir + "/" + test_vcxproj_fileName
             try:
-                # Copy the file to the destination with the new name
+                # Copy the file to the destination with the new name. In case the test proejct is already present, it will override that file
                 shutil.copy2(source_path, destination_path)
                 self.le_testvcxprojPath.setText(destination_path)
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Information)
-                msg.setText("Created a new " + test_vcxproj_fileName + " successfully!")
-                msg.setWindowTitle("Info")
-                msg.exec()
-            except shutil.Error as e:
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText("Error! Please try again")
-                msg.setWindowTitle("Error")
-                msg.exec()
+                QMessageBox.information(self, "Info", "Created a new " + test_vcxproj_fileName + " successfully!")
+            except:
+                QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
         else:
-            msg = QMessageBox(self)
-            msg.setIcon(QMessageBox.Icon.Warning)
-            msg.setText("Please select the correct vcxproj file ")
-            msg.setWindowTitle("Invalid vcxproj file")
-            msg.exec()
+            QMessageBox.warning(self, "vcxproj file not found", "Please select the correct vcxproj file.")
     
     def CreateTestPackagesConfig(self):
         if self.le_vcxprojFileName.text():
@@ -98,23 +90,11 @@ class MainWindow(QMainWindow):
                 new_pck_name = "packages." + self.le_vcxprojFileName.text().split(".")[0] + ".config"
                 os.rename(source_path, calc_dir + "/" + new_pck_name)
                 self.le_CalcPackagesConfigFileName.setText(new_pck_name)
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Information)
-                msg.setText("Created a new " + test_packagesconfig_fileName + " and renamed calc packages.config successfully!")
-                msg.setWindowTitle("Info")
-                msg.exec()
+                QMessageBox.information(self, "Info", "Created a new " + test_packagesconfig_fileName + " and renamed calc packages.config successfully!")
             except:
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText("Error! Please try again")
-                msg.setWindowTitle("Error")
-                msg.exec()
+                QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
         else:
-            msg = QMessageBox(self)
-            msg.setIcon(QMessageBox.Icon.Warning)
-            msg.setText("Please select the correct vcxproj file ")
-            msg.setWindowTitle("Invalid vcxproj file")
-            msg.exec()
+            QMessageBox.warning(self, "vcxproj file not found", "Please select the correct vcxproj file.")
     
     def ModifyTestVcxProjFile(self):
         file_path = self.le_testvcxprojPath.text()
