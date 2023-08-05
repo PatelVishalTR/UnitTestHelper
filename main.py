@@ -47,14 +47,11 @@ class MainWindow(QMainWindow):
     
     def BrowseVcxProjFile(self):
         try:
-            file_path, _ = QFileDialog.getOpenFileName(self, "Select .vcxproj File", "C:\\", "Visual Studio Project Files (*.vcxproj);;All Files (*)")
+            file_path, _ = QFileDialog.getOpenFileName(self, "Select .vcxproj File", "C:\\", "Visual Studio Project Files (*.vcxproj))")
             if file_path:
                 file_name = os.path.basename(file_path)
-                if file_name.endswith(".vcxproj"):
-                    self.le_vcxprojPath.setText(file_path)
-                    self.le_vcxprojFileName.setText(file_name)
-                else:
-                    QMessageBox.warning(self, "Warning", "Please select the vcxproj file.")
+                self.le_vcxprojPath.setText(file_path)
+                self.le_vcxprojFileName.setText(file_name)
         except:
             QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
               
