@@ -175,8 +175,8 @@ class MainWindow(QMainWindow):
     def AddtoSln(self):
         if self.le_vcxprojFileName.text() and self.le_testvcxprojPath.text():
             try:
-                input_string = self.le_vcxprojFileName.text()
-                sln_fileName = input_string.replace("CLC.vcxproj", ".sln")
+                input_string = self.le_vcxprojFileName.text().lower()
+                sln_fileName = input_string.replace("clc.vcxproj", ".sln")
                 source_path = self.le_vcxprojPath.text()
                 calc_dir = os.path.dirname(source_path)
                 sln_dir = os.path.dirname(calc_dir) + "/" + sln_fileName
@@ -185,7 +185,6 @@ class MainWindow(QMainWindow):
                 with open(sln_dir, 'r') as solution_file:
                     solution_content = solution_file.read()
 
-                solution_file.close()
                 # Check if the project is already added to the solution
                 if project_path in solution_content:
                     QMessageBox.warning(self, "Warning", f"The project '{project_path}' is already added to the solution.")
