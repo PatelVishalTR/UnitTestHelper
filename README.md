@@ -7,8 +7,8 @@ A utility to assist and automate various tasks related to unit testing for Ultra
 ## Features
 
 - Creation of a new test project 
-- Modification of vcxproj and packages.config files
-- Adding the test project to the solution
+- Renaming of packages.config to packages.xssclc.config and packages.__xssclc_test.config
+- Modification of calc and test vcxproj files
 - More features coming soon...
 
 
