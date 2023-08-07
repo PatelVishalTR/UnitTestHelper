@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
                 self.le_CalcPackagesConfigFileName.setText(new_pck_name)
                 QMessageBox.information(self, "Info", "Created a new " + test_packagesconfig_fileName + " and renamed calc packages.config successfully!")
             except:
-                QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
+                QMessageBox.critical(self, "Error", "This step has already been completed or packages.config file does not exists.")
         else:
             QMessageBox.warning(self, "Unable to proceed", "Please complete the step 1 to proceed.")
     
@@ -107,6 +107,8 @@ class MainWindow(QMainWindow):
                 insert_line = '</Import>\n<Import Project="$(wincsi_prodcomRootDir)inc\\comcalcs_src\\test.targets">'
                 # Specify the target line after which the new line should be inserted
                 target_line = '<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets">'
+                # Newly inserted line for verification
+                test_target_line = '<Import Project="$(wincsi_prodcomRootDir)inc\\comcalcs_src\\test.targets">\n'
 
                 # Read the contents of the file
                 with open(file_path, 'r') as file:
@@ -118,9 +120,16 @@ class MainWindow(QMainWindow):
                     if target_line in line:
                         target_line_index = i
                         break
-
+                    
+                # Check of the insert_line already present
+                insert_line_index = -1
+                for i, line in enumerate(lines):
+                    if test_target_line in line:
+                        insert_line_index = i
+                        break
+                
                 # If the target line is found, insert the new line after it
-                if target_line_index != -1:
+                if target_line_index != -1 and insert_line_index == -1:
                     lines.insert(target_line_index + 1, insert_line + '\n')
 
                     # Write the modified contents back to the file
@@ -128,10 +137,8 @@ class MainWindow(QMainWindow):
                         file.writelines(lines)
                     file.close()
                 else:
-                    file.close()
-                    QMessageBox.critical(self, "Error", "Error modifying the file. Please try again.")
+                    QMessageBox.warning(self, "Warning", "test.targets import already present. Continuing with renaming packages.config")
             except:
-                file.close()
                 QMessageBox.critical(self, "Error", "Error adding test.target content to the test vcxproj file.")
 
             try:
@@ -142,32 +149,43 @@ class MainWindow(QMainWindow):
                 # Calc packages.config file rename
                 new_calc_packageConfig_filename = self.le_CalcPackagesConfigFileName.text()
                 
-                # Modify the lines with the new filename
-                with open(file_path, 'r') as tfile:
-                    tlines = tfile.readlines()
+                # Check of the changes are already present
+                with open(file_path, 'r') as file:
+                    lines = file.readlines()
                     
-                updated_lines = [tline.replace(old_filename, new_filename) for tline in tlines]
-                tfile.close()
+                packages_config_index = -1
+                for i, line in enumerate(lines):
+                    if old_filename in line:
+                        packages_config_index = i
+                        break
+                    file.close()
+                if packages_config_index != -1:
+                    # Modify the lines with the new filename
+                    with open(file_path, 'r') as tfile:
+                        tlines = tfile.readlines()
+                        
+                    updated_lines = [tline.replace(old_filename, new_filename) for tline in tlines]
+                    tfile.close()
 
-                with open(file_path, 'w') as tfile:
-                    tfile.writelines(updated_lines)
-                tfile.close()
-                
-                # Modify calc vcxprofj file
-                with open(calc_file_path, 'r') as cfile:
-                    clines = cfile.readlines()
+                    with open(file_path, 'w') as tfile:
+                        tfile.writelines(updated_lines)
+                    tfile.close()
                     
-                cupdated_lines = [cline.replace(old_filename, new_calc_packageConfig_filename) for cline in clines]
-                cfile.close()
-                
-                with open(calc_file_path, 'w') as cfile:
-                    cfile.writelines(cupdated_lines)
-                cfile.close()
-                
-                QMessageBox.information(self, "Info", f"Modified {file_path} and {calc_file_path} successfully!")
+                    # Modify calc vcxprofj file
+                    with open(calc_file_path, 'r') as cfile:
+                        clines = cfile.readlines()
+                        
+                    cupdated_lines = [cline.replace(old_filename, new_calc_packageConfig_filename) for cline in clines]
+                    cfile.close()
+                    
+                    with open(calc_file_path, 'w') as cfile:
+                        cfile.writelines(cupdated_lines)
+                    cfile.close()
+                    
+                    QMessageBox.information(self, "Info", f"Modified {file_path} and {calc_file_path} successfully!")
+                else:
+                    QMessageBox.warning(self, "Warning", "packages.config already modified. Please proceed to the next step")
             except:
-                tfile.close()
-                cfile.close()
                 QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
         else:
             QMessageBox.warning(self, "Unable to proceed", "Please complete the previous two steps to proceed.")
