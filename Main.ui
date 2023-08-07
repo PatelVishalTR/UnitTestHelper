@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>540</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,13 +22,13 @@
   <property name="minimumSize">
    <size>
     <width>700</width>
-    <height>540</height>
+    <height>560</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>700</width>
-    <height>540</height>
+    <height>560</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -149,10 +149,10 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>360</y>
+      <x>380</x>
+      <y>170</y>
       <width>171</width>
-      <height>121</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -170,8 +170,8 @@
    <widget class="QPushButton" name="pb_ModifyVcxprojFile">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>380</y>
+      <x>560</x>
+      <y>190</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -223,8 +223,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>350</y>
+      <x>340</x>
+      <y>180</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -240,13 +240,13 @@
      <string>&lt;b&gt;3&lt;/b&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>170</y>
-      <width>141</width>
-      <height>81</height>
+      <x>380</x>
+      <y>320</y>
+      <width>281</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -255,61 +255,10 @@
      </font>
     </property>
     <property name="text">
-     <string>Add the test vcxproj file into the solution</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add the test project to the soluiton:&lt;br/&gt;Right-click on solution -&amp;gt; Add existing project.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Make sure to click on SaveAll button in VS22&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pb_AddtoSln">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>180</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Add to sln</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>350</y>
-      <width>21</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>13</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;b&gt;5&lt;/b&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>260</y>
-      <width>251</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Make sure to click&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;on SaveAll button in VS22&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="Line" name="line_3">
@@ -318,7 +267,7 @@
       <x>320</x>
       <y>160</y>
       <width>20</width>
-      <height>331</height>
+      <height>261</height>
      </rect>
     </property>
     <property name="orientation">
@@ -363,9 +312,9 @@
    <widget class="QLineEdit" name="le_TestPackagesConfigFileName">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>270</y>
-      <width>191</width>
+      <x>110</x>
+      <y>290</y>
+      <width>201</width>
       <height>20</height>
      </rect>
     </property>
@@ -376,32 +325,12 @@
      <string>packages.__FUSCLC_test.config</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>170</y>
-      <width>21</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>13</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;b&gt;4&lt;/b&gt;</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="le_CalcPackagesConfigFileName">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>310</y>
-      <width>191</width>
+      <x>110</x>
+      <y>330</y>
+      <width>201</width>
       <height>20</height>
      </rect>
     </property>
@@ -415,15 +344,15 @@
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>370</y>
-      <width>251</width>
-      <height>61</height>
+      <x>180</x>
+      <y>460</y>
+      <width>361</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -434,6 +363,26 @@
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>330</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;b&gt;4&lt;/b&gt;</string>
     </property>
    </widget>
   </widget>

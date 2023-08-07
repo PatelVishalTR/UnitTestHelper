@@ -25,7 +25,6 @@ class MainWindow(QMainWindow):
             self.pb_CreateTestVcxproj.clicked.connect(self.CreateTestVcxprojFile)
             self.pb_BrowseVcxprojFile.clicked.connect(self.BrowseVcxProjFile)
             self.pb_ModifyVcxprojFile.clicked.connect(self.ModifyTestVcxProjFile)
-            self.pb_AddtoSln.clicked.connect(self.AddtoSln)
             self.pb_CreateTestPackagesConfig.clicked.connect(self.CreateTestPackagesConfig)
              
     def ActionAbout(self):
@@ -189,51 +188,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
         else:
             QMessageBox.warning(self, "Unable to proceed", "Please complete the previous two steps to proceed.")
-    
-    def AddtoSln(self):
-        if self.le_vcxprojFileName.text() and self.le_testvcxprojPath.text():
-            try:
-                input_string = self.le_vcxprojFileName.text().lower()
-                sln_fileName = input_string.replace("clc.vcxproj", ".sln")
-                source_path = self.le_vcxprojPath.text()
-                calc_dir = os.path.dirname(source_path)
-                sln_dir = os.path.dirname(calc_dir) + "/" + sln_fileName
-                project_path = self.le_testvcxprojPath.text()
-                
-                with open(sln_dir, 'r') as solution_file:
-                    solution_content = solution_file.read()
 
-                # Check if the project is already added to the solution
-                if project_path in solution_content:
-                    QMessageBox.warning(self, "Warning", f"The project '{project_path}' is already added to the solution.")
-                    return
-
-                # Get the solution directory
-                solution_dir = os.path.dirname(sln_dir)
-
-                # Get the relative path of the project
-                relative_project_path = os.path.relpath(project_path, solution_dir)
-
-                # Construct the project entry to be added to the solution
-                project_entry = f'Project("{{{os.urandom(16).hex()}}}") = "{os.path.basename(project_path)}", "{relative_project_path}", "{{{os.urandom(16).hex()}}}"\nEndProject'
-                
-                # Add the project entry to the solution
-                solution_content += f'\n{project_entry}\n'
-                
-                # Write the updated solution file
-                with open(sln_dir, 'w') as solution_file:
-                    solution_file.write(solution_content)
-                
-                solution_file.close()
-                QMessageBox.information(self, "Info", f"The project '{project_path}' has been added to the solution '{sln_fileName}'.")
-
-            except:
-                solution_file.close()
-                QMessageBox.critical(self, "Error", "Something went wrong. Please try again.")
-        
-        else:
-            QMessageBox.warning(self, "Unable to proceed", "Please complete the previous steps to proceed.")
-      
 # Entry point of the application
 if __name__ == '__main__':
     app = QApplication([])
