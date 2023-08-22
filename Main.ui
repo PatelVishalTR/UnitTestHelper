@@ -301,7 +301,7 @@
      <bool>true</bool>
     </property>
     <property name="placeholderText">
-     <string>packages.__FUSCLC_test.config</string>
+     <string>packages.FUSCLC_test.config</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="le_CalcPackagesConfigFileName">

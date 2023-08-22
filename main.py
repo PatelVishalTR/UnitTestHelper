@@ -9,7 +9,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
             super(MainWindow, self).__init__()
             uic.loadUi("Main.ui", self)
-            self.setWindowIcon(QtGui.QIcon('logo.png'))
             self.show()
             
             # File -> About action
@@ -79,7 +78,7 @@ class MainWindow(QMainWindow):
             vcxprojPath = self.le_vcxprojPath.text()
             calc_dir = os.path.dirname(vcxprojPath)
             source_path = calc_dir + "/" + "packages.config"
-            test_packagesconfig_fileName = "packages.__" + self.le_vcxprojFileName.text().split(".")[0] + "_test.config"
+            test_packagesconfig_fileName = "packages." + self.le_vcxprojFileName.text().split(".")[0] + "_test.config"
             destination_path = calc_dir + "/" + test_packagesconfig_fileName
             try:
                 # Copy the file to the destination with the new name
